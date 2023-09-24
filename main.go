@@ -7,19 +7,24 @@ import (
 )
 
 func main() {
-    fmt.Println("Welcome to the Pokedex CLI!")
-    fmt.Println("Type \"help\" for usage instructions and \"exit\" to quit.")
+    fmt.Println("\nWelcome to the Pokedex CLI!")
+    fmt.Println("\nType \"help\" for usage instructions or \"exit\" to quit.")
     fmt.Println()
     fmt.Print("pokedex > ")
     scanner := bufio.NewScanner(os.Stdin)
 
+    commands := loadCommands()
+
     for scanner.Scan() {
         text := scanner.Text()
-        fmt.Println(text)
-        fmt.Print("pokedex > ") 
-    }
 
-    if err := scanner.Err(); err != nil {
-        fmt.Fprintln(os.Stderr, "reading standard input:", err)
-	}
+        cmd, ok := commands[text]
+        if !ok {
+            fmt.Println("\nUnknown command. Please try again or type \"help\" for usage instructions.")
+        } else {
+            cmd.callback()
+        }
+
+        fmt.Print("\npokedex > ") 
+    }
 }

@@ -1,5 +1,10 @@
 package main
 
+import (
+	"fmt"
+	"os"
+)
+
 type command struct {
     name string
     description string
@@ -7,10 +12,20 @@ type command struct {
 }
 
 func commandHelp() error {
+    commands := loadCommands()
+
+    fmt.Println("\nUsage:")
+    fmt.Println()
+    for _, cmd := range commands {
+        fmt.Printf("%s: %s\n", cmd.name, cmd.description)
+    }
+
     return nil
 }
 
 func commandExit() error {
+    os.Exit(0)
+
     return nil
 }
 
