@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-func commandMapForward(config *config) error {
+func commandMapForward(config *config, params []string) error {
 	locations, err := config.pokeapiClient.ListLocations(config.Next)
 	if err != nil {
 		return err
@@ -20,7 +20,7 @@ func commandMapForward(config *config) error {
 	return nil
 }
 
-func commandMapBack(config *config) error {
+func commandMapBack(config *config, params []string) error {
 	if config.Previous == nil {
 		fmt.Println("\nCan't go back any further! Try the 'map' command instead.")
 		return nil

@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/blytheaw/pokedexcli/internal/pokeapi"
@@ -18,7 +19,7 @@ type config struct {
 type command struct {
 	name        string
 	description string
-	callback    func(*config) error
+	callback    func(*config, []string) error
 }
 
 func main() {
@@ -27,7 +28,6 @@ func main() {
 
 	conf := &config{
 		pokeapiClient: pokeapi.NewClient(30*time.Second, 30*time.Second),
-		//Next:   "https://pokeapi.co/api/v2/location?offset=0&limit=20",
 	}
 
 	scanner := bufio.NewScanner(os.Stdin)
@@ -38,11 +38,17 @@ func main() {
 		scanner.Scan()
 		text := scanner.Text()
 
-		cmd, ok := getCommands()[text]
+		cmdParts := strings.Split(text, " ")
+
+		cmd, ok := getCommands()[cmdParts[0]]
 		if !ok {
 			fmt.Println("\nUnknown command. Please try again or type \"help\" for usage instructions.")
 		} else {
-			cmd.callback(conf)
+			err := cmd.callback(conf, cmdParts[1:])
+
+			if err != nil {
+				fmt.Println(err)
+			}
 		}
 	}
 }
@@ -68,6 +74,11 @@ func getCommands() map[string]command {
 			name:        "mapb",
 			description: "Displays previous 20 locations on the map",
 			callback:    commandMapBack,
+		},
+		"explore": {
+			name:        "explore",
+			description: "Displays Pokemon located at chosen location",
+			callback:    commandExplore,
 		},
 	}
 }

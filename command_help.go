@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-func commandHelp(config *config) error {
+func commandHelp(config *config, params []string) error {
 	fmt.Println("\nUsage:")
 	fmt.Println()
 	for _, cmd := range getCommands() {
