@@ -68,7 +68,7 @@ type Location struct {
 	} `json:"pokemon_encounters"`
 }
 
-func (c *Client) GetLocationByID(name string) (Location, error) {
+func (c *Client) GetLocationByName(name string) (Location, error) {
 	fullUrl := baseURL + "/location-area/" + name
 
 	if data, ok := c.cache.Get(fullUrl); ok {

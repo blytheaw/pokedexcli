@@ -13,7 +13,7 @@ func commandExplore(config *config, params []string) error {
 	locationName := params[0]
 
 	fmt.Println("Exploring " + locationName + "...")
-	location, err := config.pokeapiClient.GetLocationByID(locationName)
+	location, err := config.pokeapiClient.GetLocationByName(locationName)
 	if err != nil {
 		return err
 	}
