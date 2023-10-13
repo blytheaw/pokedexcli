@@ -7,8 +7,8 @@ import (
 )
 
 func commandCatch(config *config, params []string) error {
-	if len(params) > 1 {
-		return errors.New("Expected format: 'explore <location>'")
+	if len(params) != 1 {
+		return errors.New("Expected format: 'catch <pokemon>'")
 	}
 
 	pokemonName := params[0]
@@ -21,8 +21,12 @@ func commandCatch(config *config, params []string) error {
 
 	chance := rand.Intn(pokemon.BaseExperience)
 
-	fmt.Printf("base xp: %v\n", pokemon.BaseExperience)
-	fmt.Printf("chance: %v\n", chance)
+	if chance < 40 {
+		fmt.Printf("%s was caught!\n", pokemon.Name)
+		config.pokedex[pokemon.Name] = pokemon
+	} else {
+		fmt.Printf("%s escaped!\n", pokemon.Name)
+	}
 
 	return nil
 }

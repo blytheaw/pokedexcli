@@ -6,7 +6,7 @@ import (
 )
 
 func commandExplore(config *config, params []string) error {
-	if len(params) > 1 {
+	if len(params) != 1 {
 		return errors.New("Expected format: 'explore <location>'")
 	}
 

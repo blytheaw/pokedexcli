@@ -11,6 +11,7 @@ import (
 )
 
 type config struct {
+	pokedex       map[string]pokeapi.Pokemon
 	pokeapiClient pokeapi.Client
 	Next          *string
 	Previous      *string
@@ -27,6 +28,7 @@ func main() {
 	fmt.Println("\nType \"help\" for usage instructions or \"exit\" to quit.")
 
 	conf := &config{
+		pokedex:       make(map[string]pokeapi.Pokemon),
 		pokeapiClient: pokeapi.NewClient(30*time.Second, 30*time.Second),
 	}
 
@@ -84,6 +86,16 @@ func getCommands() map[string]command {
 			name:        "catch",
 			description: "Attempt to catch a Pokemon by name",
 			callback:    commandCatch,
+		},
+		"inspect": {
+			name:        "inspect",
+			description: "View details about one of your caught Pokemon",
+			callback:    commandInspect,
+		},
+		"pokedex": {
+			name:        "pokedex",
+			description: "List all caught Pokemon",
+			callback:    commandPokedex,
 		},
 	}
 }
